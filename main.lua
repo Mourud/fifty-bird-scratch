@@ -89,12 +89,15 @@ end
 function love.draw()
     push:start()
     love.graphics.draw(BACKGROUND_IMAGE, -backgroundScroll, 0)
+
+    bird:render()
+    
     for k,pipe in pairs(pipes) do
         pipe:render()
     end
     love.graphics.draw(GROUND_IMAGE, -groundScroll, VIRTUAL_HEIGHT - 16)
 
-    bird:render()
+    
     
     push:finish()
 end
