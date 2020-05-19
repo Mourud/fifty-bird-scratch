@@ -33,7 +33,7 @@ function love.load()
         resizable = true
     })
 
-    love.keyboard.keysPressed
+    love.keyboard.keysPressed = {}
 end
 
 function love.resize(w,h)
