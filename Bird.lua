@@ -1,7 +1,7 @@
 Bird = Class{}
 
 function Bird:init()
-    self.image = love.graphics.newImage('assets/image/bird.png')
+    self.image = love.graphics.newImage('assets/images/bird.png')
     self.width = self.image:getWidth()
     self.height = self.image:getHeight()
 
