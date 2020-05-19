@@ -29,6 +29,8 @@ local pipes = {}
 
 local spawnTimer = 0
 
+local lastGapY = -PIPE_HEIGHT + math.random(80) + 20
+
 function love.load()
 
     math.randomseed(os.time())
@@ -68,7 +70,11 @@ function love.update(dt)
     spawnTimer = spawnTimer + dt
 
     if spawnTimer > 2 then
-        table.insert(pipes, Pipe())
+        -- TODO: Understand clamp operations using max and min. Use pong repo if needed
+        local y = math.max(-PIPE_HEIGHT + 10,
+            math.min(lastGapY + math.random(-20 , 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+        lastY = y
+        table.insert(pipes, PipePair(y))
         spawnTimer = 0
     end
 
@@ -91,14 +97,12 @@ function love.draw()
     love.graphics.draw(BACKGROUND_IMAGE, -backgroundScroll, 0)
 
     bird:render()
-    
+
     for k,pipe in pairs(pipes) do
         pipe:render()
     end
     love.graphics.draw(GROUND_IMAGE, -groundScroll, VIRTUAL_HEIGHT - 16)
 
-    
-    
     push:finish()
 end
 
