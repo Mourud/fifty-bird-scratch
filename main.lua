@@ -25,7 +25,7 @@ local BACKGROUND_LOOPING_POINT = 413
 
 local bird = Bird()
 
-local pipes = {}
+local pipePairs = {}
 
 local spawnTimer = 0
 
@@ -72,22 +72,23 @@ function love.update(dt)
     if spawnTimer > 2 then
         -- TODO: Understand clamp operations using max and min. Use pong repo if needed
         local y = math.max(-PIPE_HEIGHT + 10,
-            math.min(lastGapY + math.random(-20 , 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+            math.min(lastGapY + math.random(-20 , 20), VIRTUAL_HEIGHT - GAP_HEIGHT - PIPE_HEIGHT))
         lastY = y
-        table.insert(pipes, PipePair(y))
+        table.insert(pipePairs, PipePair(y))
         spawnTimer = 0
     end
 
     bird:update(dt)
 
-    for k,pipe in pairs(pipes) do
-        pipe:update(dt)
-
-        if pipe.x < -pipe.width then
+    -- TODO: Why two loops?
+    for k,pair in pairs(pipePairs) do
+        pair:update(dt)
+    end
+    for k,pair in pairs(pipePairs) do
+        if pair.remove then
             table.remove(pipes, k)
         end
     end
-
 
     love.keyboard.keysPressed = {}
 end
@@ -98,8 +99,8 @@ function love.draw()
 
     bird:render()
 
-    for k,pipe in pairs(pipes) do
-        pipe:render()
+    for k,pair in pairs(pipePairs) do
+        pair:render()
     end
     love.graphics.draw(GROUND_IMAGE, -groundScroll, VIRTUAL_HEIGHT - 16)
 
