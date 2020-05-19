@@ -9,4 +9,6 @@ function Bird:init()
     self.y = VIRTUAL_HEIGHT / 2 - self.height / 2
 end
 
-function Bird
+function Bird:render()
+    love.graphics.draw(self.image, self.x, self.y)
+end
