@@ -11,8 +11,8 @@ WINDOW_HEIGHT = 720
 VIRTUAL_WIDTH = 512
 VIRTUAL_HEIGHT = 288
 
-local background = love.graphics.newImage('assets/images/background.png')
-local ground = love.graphics.newImage('assets/images/ground.png')
+local BACKGROUND_IMAGE = love.graphics.newImage('assets/images/background.png')
+local GROUND_IMAGE = love.graphics.newImage('assets/images/ground.png')
 
 local backgroundScroll = 0
 local groundScroll = 0
@@ -65,8 +65,8 @@ end
 
 function love.draw()
     push:start()
-    love.graphics.draw(background, -backgroundScroll, 0)
-    love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
+    love.graphics.draw(BACKGROUND_IMAGE, -backgroundScroll, 0)
+    love.graphics.draw(GROUND_IMAGE, -groundScroll, VIRTUAL_HEIGHT - 16)
 
     bird:render()
     
