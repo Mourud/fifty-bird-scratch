@@ -4,6 +4,8 @@ local PIPE_IMAGE = love.graphics.newImage('assets/images/pipe.png')
 
 local PIPE_SCROLL = -60
 
+PIPE_HEIGHT = PIPE_IMAGE:getHeight()
+
 function Pipe:init()
     self.x = VIRTUAL_WIDTH
     self.y = math.random(VIRTUAL_HEIGHT/4 , VIRTUAL_HEIGHT - 20)
