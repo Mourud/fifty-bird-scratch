@@ -31,6 +31,8 @@ local spawnTimer = 0
 
 local lastGapY = -PIPE_HEIGHT + math.random(80) + 20
 
+local scolling = true
+
 function love.load()
 
     math.randomseed(os.time())
@@ -64,30 +66,37 @@ function love.keyboard.wasPressed(key)
 end
 
 function love.update(dt)
-    backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
-    groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
-    
-    spawnTimer = spawnTimer + dt
-    spawnTime = math.random(2,30)
-    if spawnTimer > spawnTime then
-        -- TODO: Understand clamp operations using max and min. Use pong repo if needed
-        local y = math.max(-PIPE_HEIGHT + 10,
-            math.min(lastGapY + math.random(-40 , 40), VIRTUAL_HEIGHT - GAP_HEIGHT - PIPE_HEIGHT))
-        lastY = y
-        table.insert(pipePairs, PipePair(y))
-        spawnTimer = 0
-    end
-
-    bird:update(dt)
-
-    -- TODO: Why two loops?
-    for k,pair in pairs(pipePairs) do
-        pair:update(dt)
-    end
-    for k,pair in pairs(pipePairs) do
-        if pair.remove then
-            table.remove(pipes, k)
+    if scolling then
+        backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
+        groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
+        
+        spawnTimer = spawnTimer + dt
+        spawnTime = math.random(2,30)
+        if spawnTimer > spawnTime then
+            local y = math.max(-PIPE_HEIGHT + 10,
+                math.min(lastGapY + math.random(-40 , 40), VIRTUAL_HEIGHT - GAP_HEIGHT - PIPE_HEIGHT))
+            lastY = y
+            table.insert(pipePairs, PipePair(y))
+            spawnTimer = 0
         end
+
+        bird:update(dt)
+
+        -- TODO: Why two loops?
+        for k,pair in pairs(pipePairs) do
+            pair:update(dt)
+            for l, pipe in pairs(pair.pipes) do
+                if bird:collides(pipe) then
+                    scolling = false
+                end
+            end
+        end
+        for k,pair in pairs(pipePairs) do
+            if pair.remove then
+                table.remove(pipes, k)
+            end
+        end
+
     end
 
     love.keyboard.keysPressed = {}

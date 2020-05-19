@@ -14,15 +14,21 @@ function Bird:init()
     self.dy = 0
 end
 
+function Bird:collides(pipe)
+    -- if (self.x < pipe.x and self. y> pipe.y)then
+    --     if y< pipe.y + pipe.width
+end
+
 function Bird:update(dt)
     self.dy = self.dy + GRAVITY * dt
 
     if love.keyboard.wasPressed('space') then
         self.dy = JUMP_ACCELERATION
     end
-    
+
     self.y = self.y + self.dy
 end
+
 
 function Bird:render()
     love.graphics.draw(self.image, self.x, self.y)
