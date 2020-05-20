@@ -15,8 +15,15 @@ function Bird:init()
 end
 
 function Bird:collides(pipe)
-    -- if (self.x < pipe.x and self. y> pipe.y)then
-    --     if y< pipe.y + pipe.width
+    
+    if (self.x + self.width - 2 > pipe.x and self.x + 2 < pipe.x + pipe.width)then
+        if pipe.orientation == 'top' and self.y + 2 < pipe.y + pipe.height  then
+            return true
+        elseif pipe.orientation == 'bottom' and self.y + self.height - 2 > pipe.y  then
+            return true
+        else return false
+        end
+    end
 end
 
 function Bird:update(dt)

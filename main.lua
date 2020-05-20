@@ -75,7 +75,7 @@ function love.update(dt)
         if spawnTimer > spawnTime then
             local y = math.max(-PIPE_HEIGHT + 10,
                 math.min(lastGapY + math.random(-40 , 40), VIRTUAL_HEIGHT - GAP_HEIGHT - PIPE_HEIGHT))
-            lastY = y
+            lastGapY = y
             table.insert(pipePairs, PipePair(y))
             spawnTimer = 0
         end
