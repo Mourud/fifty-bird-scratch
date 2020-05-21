@@ -11,6 +11,8 @@ function Bird:init()
     self.x = VIRTUAL_WIDTH / 2 - self.width / 2
     self.y = VIRTUAL_HEIGHT / 2 - self.height / 2
 
+    self.flag = true
+
     self.dy = 0
 end
 
@@ -31,6 +33,7 @@ function Bird:update(dt)
 
     if love.keyboard.wasPressed('space') then
         self.dy = JUMP_ACCELERATION
+        sounds['jump']:play()
     end
 
     self.y = self.y + self.dy
