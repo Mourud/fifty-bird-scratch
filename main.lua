@@ -70,12 +70,15 @@ function love.load()
     gStateMachine:change('title')
 
     love.keyboard.keysPressed = {}
+    love.mouse.mousePressed = {}
 end
 
 function love.resize(w,h)
     push:resize(w,h)
 end
-
+function love.mousepressed(x, y, button)
+    love.mouse.mousePressed[button] = true
+end
 function love.keypressed(key)
     love.keyboard.keysPressed[key] = true
     if key == 'escape' then 
@@ -87,6 +90,10 @@ function love.keyboard.wasPressed(key)
     return love.keyboard.keysPressed[key]
 end
 
+function love.mouse.wasPressed(button)
+    return love.mouse.mousePressed[button]
+end
+
 function love.update(dt)
     backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
     groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
@@ -94,6 +101,7 @@ function love.update(dt)
     gStateMachine:update(dt)
 
     love.keyboard.keysPressed = {}
+    love.mouse.mousePressed = {}
 end
 
 function love.draw()
